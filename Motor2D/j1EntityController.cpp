@@ -9,8 +9,6 @@
 #include "j1Audio.h"
 #include "Command.h"
 #include "j1Input.h"
-#include "Squad.h"
-#include "Hero.h"
 
 j1EntityController::j1EntityController() { name = "entitycontroller"; }
 
@@ -34,7 +32,6 @@ bool j1EntityController::Start()
 
 	addBuilding(iPoint(700, 700), BARRACKS);
 
-	squad_test = new Squad(squad_units_test);
 	return true;
 }
 
@@ -43,8 +40,6 @@ bool j1EntityController::Update(float dt)
 	BROFILER_CATEGORY("Entites update", Profiler::Color::Maroon);
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) { debug = !debug; App->map->debug = debug; };
-
-	squad_test->Update(dt);
 
 	for (std::list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
 	{
@@ -69,29 +64,21 @@ bool j1EntityController::Update(float dt)
 		
 		int x, y;
 		App->input->GetMousePosition(x, y);
-		iPoint pos1 = App->map->WorldToMap(x, y);
+		iPoint pos1 = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
 		iPoint pos2 = App->map->MapToWorld(pos1.x, pos1.y);
-		if (App->map->CheckWalkabilityArea(pos2.x, pos2.y, 3, 3))
-		{
-			addBuilding(pos2, BARRACKS);
-			building = false;
-		}
+		
+		addBuilding(pos2, BARRACKS);
+		building = false;
 	}
 
 	if (building)
 	{
 		int x, y;
 		App->input->GetMousePosition(x, y);
-		iPoint pos1 = App->map->WorldToMap(x, y);
+		iPoint pos1 = App->map->WorldToMap(x - App->render->camera.x, y - App->render->camera.y);
 		iPoint pos2 = App->map->MapToWorld(pos1.x, pos1.y);
-		if (App->map->CheckWalkabilityArea(pos2.x, pos2.y, 3, 3))
-		{
-			App->render->DrawQuad({ pos2.x,pos2.y,buildingDB[1]->section->w,buildingDB[1]->section->h }, Green);
-		}
-		else
-		{
-			App->render->DrawQuad({ pos2.x,pos2.y,buildingDB[1]->section->w,buildingDB[1]->section->h }, Red);
-		}
+
+		App->render->DrawQuad({ pos2.x,pos2.y,buildingDB[1]->section->w,buildingDB[1]->section->h }, Green);
 		
 	}
 
@@ -159,7 +146,6 @@ Unit* j1EntityController::addUnit(iPoint pos, unitType type, Squad* squad)
 {
 	Unit* unit = new Unit(pos, *(unitDB[type]), squad);
 	entities.push_back(unit);
-	App->gui->createLifeBar(unit);
 	
 	// if(App->render->CullingCam(unit->position))  App->audio->PlayFx(UNIT_CREATED_FX);
 	return unit;
@@ -169,7 +155,6 @@ Building* j1EntityController::addBuilding(iPoint pos, buildingType type)
 {
 	Building* building = new Building(pos, *(buildingDB[type]));
 	entities.push_back(building);
-	App->gui->createLifeBar(building);
 	return building;
 }
 
@@ -202,8 +187,6 @@ void j1EntityController::commandControl()
 
 	if (!entity)   // clicked on ground
 	{
-		squad_test->Halt();
-		squad_test->commands.push_back(new MoveToSquad(squad_test->commander, map_p));
 		/*for (std::list<Entity*>::iterator it = selected_entities.begin(); it != selected_entities.end(); it++)
 		{
 			if ((*it)->entity_type == UNIT)
@@ -284,8 +267,6 @@ void j1EntityController::selectionControl()
 			for (std::list<Entity*>::iterator it = entities.begin(); it != entities.end(); it++)
 				if ((*it)->entity_type == BUILDING) entities.remove(*it);
 		}
-
-		App->gui->newSelectionDone();
 			
 		selection_rect = { 0,0,0,0 };
 		break;

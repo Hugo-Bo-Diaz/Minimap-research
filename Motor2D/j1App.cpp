@@ -9,17 +9,13 @@
 #include "j1Input.h"
 #include "j1Render.h"
 #include "j1Textures.h"
-#include "j1Audio.h"
 #include "j1UIScene.h"
 #include "j1Scene.h"
-#include "j1SceneSwitch.h"
 #include "j1Map.h"
 #include "j1App.h"
 #include "j1EntityController.h"
-#include "j1Pathfinding.h"
 #include "j1Fonts.h"
 #include "j1Gui.h"
-#include "j1Console.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -30,14 +26,10 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	win					= new j1Window();
 	render				= new j1Render();
 	tex					= new j1Textures();
-	audio				= new j1Audio();
-	console				= new j1Console();
 	uiscene			    = new j1UIScene();
 	scene				= new j1Scene();
-	sceneswitch			= new j1SceneSwitch();
 	map					= new j1Map();
 	entitycontroller	= new j1EntityController();
-	pathfinding			= new j1PathFinding();
 	font				= new j1Fonts();
 	gui					= new j1Gui();
 	
@@ -46,16 +38,12 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(input);
 	AddModule(win);
 	AddModule(tex);
-	AddModule(audio);
-	AddModule(console);
 	AddModule(map);
 	AddModule(font);
 	AddModule(gui);
 	AddModule(scene);
 	AddModule(uiscene);
-	AddModule(sceneswitch);
 	AddModule(entitycontroller);
-	AddModule(pathfinding);
 
 	// render last to swap buffer
 	AddModule(render);

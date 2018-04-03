@@ -10,7 +10,6 @@
 #include "j1Scene.h"
 #include "j1UIScene.h"
 #include "j1Sceneswitch.h"
-#include "j1Pathfinding.h"
 #include "j1EntityController.h"
 #include "j1Gui.h"
 
@@ -34,9 +33,6 @@ bool j1Scene::Start()
 	uchar* data = nullptr;
 
 	App->map->Load_map("map1.tmx");
-
-	if (App->map->CreateWalkabilityMap(w, h, &data))	
-		App->pathfinding->SetMap(w, h, data);
 
 	debug_tex = App->tex->Load("maps/Navigable.png");
 

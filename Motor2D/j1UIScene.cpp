@@ -3,17 +3,13 @@
 #include "j1App.h"
 #include "j1Input.h"
 #include "j1Textures.h"
-#include "j1Audio.h"
 #include "j1Render.h"
 #include "j1Scene.h"
-#include "j1SceneSwitch.h"
 #include "j1UIScene.h"
 #include "j1Gui.h"
 #include "j1Render.h"
 #include "j1Textures.h"
 #include "UI_Element.h"
-#include "UI_Chrono.h"
-#include "UI_Text.h"
 #include "j1Fonts.h"
 #include "j1Input.h"
 
@@ -31,22 +27,7 @@ bool j1UIScene::Start()
 
 	//App->audio->PlayMusic("Main_Theme.mp3");
 
-	LoadUI(guiconfig);
-	
 	//Mouse Position counters
-	Text* text_position_x = (Text*)App->gui->GetElement(TEXT, 0);
-	text_position_x->convertIntoCounter(&x);
-
-	Text* text_position_y = (Text*)App->gui->GetElement(TEXT, 1);
-	text_position_y->convertIntoCounter(&y);
-
-	//Set resource counters
-	Text* gold_display = (Text*)App->gui->GetElement(TEXT, 2);
-	gold_display->convertIntoCounter(&App->scene->gold);
-
-	Text* wood_display = (Text*)App->gui->GetElement(TEXT, 3);
-	wood_display->convertIntoCounter(&App->scene->wood);
-
 	return true;
 }
 
@@ -71,15 +52,6 @@ void j1UIScene::LoadFonts(pugi::xml_node node)
 void j1UIScene::LoadUI(pugi::xml_node node)
 {
 	LoadFonts(node);
-	pugi::xml_node menuconfig;
-	for (menuconfig = node.child("menu"); menuconfig; menuconfig = menuconfig.next_sibling("menu"))
-	{
-		menu* newMenu = new menu((menu_id)menuconfig.attribute("type").as_int(0));
-
-		App->gui->Load_UIElements(menuconfig, newMenu, this);
-		newMenu->active = menuconfig.attribute("active").as_bool();
-		menus.push_back(newMenu);
-	}
 }
 
 
@@ -150,11 +122,6 @@ bool j1UIScene::OnUIEvent(UI_element* element, event_type event_type)
 	else if (event_type == TIMER_ZERO)
 	{
 		LOG("Clock reached zero");
-	}
-	else if (event_type == STOPWATCH_ALARM)
-	{
-		Chrono* chrono = (Chrono*)element;
-		LOG("Clock alarm at: %d", chrono->time);
 	}
 
 	return ret;

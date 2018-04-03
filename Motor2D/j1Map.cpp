@@ -4,7 +4,6 @@
 #include "j1Render.h"
 #include "j1Input.h"
 #include "j1Textures.h"
-#include "j1Pathfinding.h"
 #include "j1Audio.h"
 #include "j1Scene.h"
 #include "j1Map.h"
@@ -44,11 +43,6 @@ void j1Map::Draw()
 
 							App->render->Blit(tileset->texture, tileWorld.x, tileWorld.y, &r);
 
-							if (debug && !App->pathfinding->IsWalkable(iPoint{ (int)j,(int)i }))
-							{
-								SDL_Rect debug_r = { tileWorld.x, tileWorld.y, data.tile_width, data.tile_height };
-								App->render->DrawQuad(debug_r, Red);
-							}
 						}
 					}
 		}
@@ -93,28 +87,6 @@ iPoint j1Map::WorldToMap(int x, int y) const
 	return ret;
 }
 
-bool j1Map::CheckWalkabilityArea(int x, int y, int rows, int columns) const
-{
-	bool ret = true;
-	iPoint currentTile = { x,y };
-	for (int j = 0; j < columns; j++)
-	{
-		for (int i = 0; i < rows; i++)
-		{
-			iPoint currentMapTile = WorldToMap(currentTile.x + j * data.tile_width, currentTile.y + i * data.tile_height);
-			if (!App->pathfinding->IsWalkable(currentMapTile))
-			{
-				ret = false;
-				break;
-			}
-		}
-
-		if (!ret)
-			break;
-	}
-	
-	return ret;
-}
 
 //Returns the rect of the specified tile.
 SDL_Rect TileSet::GetTileRect(int id) const
@@ -344,38 +316,4 @@ TileSet* j1Map::GetTilesetFromTileId(int id) const
 		if (id < data.tilesets[i]->firstgid && i > 0) { set = data.tilesets[i - 1];  break; }
 
 	return set;
-}
-
-bool j1Map::CreateWalkabilityMap(int& width, int& height, uchar** buffer) const
-{
-	BROFILER_CATEGORY("Creating Path Map", Profiler::Color::DarkGreen);
-
-	for(int i = 0; i < data.layers.size(); i++)
-	{
-		MapLayer* layer = data.layers[i];
-
-		if (layer->name == "Resources")
-		{
-			uchar* map = new uchar[layer->width*layer->height];
-			memset(map, 0, layer->width*layer->height);
-
-			for (int y = 0; y < data.height; ++y)
-			{
-				for (int x = 0; x < data.width; ++x)
-				{
-					int i = (y*layer->width) + x;
-					int tile_id = layer->GetID(x, y);
-
-					if (tile_id != 0)  map[i] = INVALID_WALK_CODE;
-				}
-			}
-
-			*buffer = map;
-			width = data.width;
-			height = data.height;
-			return true;
-		}
-	}
-
-	return false;
 }

@@ -1,12 +1,8 @@
 #include "Unit.h"
-#include "Hero.h"
 #include "Effects.h"
-#include "Squad.h"
-#include "j1Pathfinding.h"
 #include "j1Render.h"
-#include "Command.h"
 #include "p2Animation.h"
-#include "Skills.h"
+#include "Command.h"
 
 Unit::Unit(iPoint pos, Unit& unit, Squad* squad) : squad(squad)
 {
@@ -70,10 +66,6 @@ bool Unit::Update(float dt)
 		if (commands.front()->state == FINISHED) commands.pop_front();
 	}
 
-	if (this->type == HERO_1)
-	{
-		((Hero*)this)->Hero::Update(dt);
-	}
 	animationController();
 	
 	return true;
@@ -163,10 +155,6 @@ bool Unit::Pushed(fPoint direction)
 
 	iPoint perpendicular_B = { -perpendicular_A.x, -perpendicular_A.y };
 	iPoint map_pos = App->map->WorldToMap(position.x, position.y);
-
-	if (App->pathfinding->IsWalkable(map_pos + perpendicular_A))		new_dest = map_pos + perpendicular_A;
-	else if(App->pathfinding->IsWalkable(map_pos + perpendicular_B))	new_dest = map_pos + perpendicular_B;
-	else																return false;
 
 	commands.push_front(new MoveTo(this, new_dest));
 	return true;

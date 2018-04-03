@@ -1,8 +1,6 @@
 #include "Command.h"
 #include "Unit.h"
-#include "Squad.h"
 #include "p2Log.h"
-#include "j1Pathfinding.h"
 #include "j1EntityController.h"
 #include "j1Map.h"
 
@@ -39,9 +37,6 @@ bool MoveTo::OnInit()
 	if (path.empty()) 
 	{
 		iPoint pos = App->map->WorldToMap(unit->position.x, unit->position.y);
-
-		if (App->pathfinding->CreatePath(pos, dest) > 0)	path = *App->pathfinding->GetLastPath();
-		else												Stop();
 	}
 	else Repath();    // if we have been already initalized and possess a path, repath
 
@@ -61,9 +56,6 @@ bool MoveTo::OnUpdate(float dt)
 
 			iPoint direction = path.front() - unit_pos;
 			direction.Normalize();
-
-			if (unit->squad)	next_step = (direction * unit->squad->max_speed * dt * SPEED_CONSTANT);
-			else				next_step = (direction * unit->speed * dt * SPEED_CONSTANT);
 
 			if (unit_pos == path.front())
 				path.pop_front();
@@ -92,8 +84,6 @@ bool MoveTo::CheckCollisions()
 		{
 			if (collisions.front()->entity_type != UNIT)
 			{
-				if (unit->squad) { unit->squad->Halt(); unit->squad->commands.push_back(new MoveToSquad(unit->squad->commander, dest)); }
-				else { unit->Halt(); unit->commands.push_back(new MoveTo(unit, dest)); }
 			}
 			else {
 				Unit* colliding_unit = (Unit*)collisions.front();
@@ -143,17 +133,7 @@ void MoveTo::Repath()
 	iPoint pos = App->map->WorldToMap(unit->position.x, unit->position.y);
 
 	std::list<iPoint> new_path;
-	if (App->pathfinding->CreatePath(pos, path.front()) > 0)
-	{
-		new_path = *App->pathfinding->GetLastPath();
 
-		for (std::list<iPoint>::reverse_iterator it = new_path.rbegin(); it != new_path.rend(); it++)
-			path.push_front(*it);
-	}
-	else if (App->pathfinding->CreatePath(pos, dest) > 0)
-		path = *App->pathfinding->GetLastPath();
-	else
-		Stop();
 }
 
 
@@ -302,23 +282,7 @@ bool MoveToSquad::OnInit()
 	if (!unit->squad) { Stop(); return true; }
 	else squad = unit->squad;
 
-	if (!reshaping_done)
-	{
-		squad->commands.push_front(new ReshapeSquad(squad->commander));
-		state = TO_INIT;
-		reshaping_done = true;
-		return true;
-	}
-
 	iPoint map_pos = App->map->WorldToMap(unit->position.x, unit->position.y);
-
-	if(App->pathfinding->CreatePath(map_pos, destination) <= 0)  Stop();  
-	else
-	{
-		const std::list<iPoint> commander_path = *App->pathfinding->GetLastPath();
-		if (!ProcessPath(commander_path)) Stop(); 
-	}
-
 
 	return true;
 }
@@ -327,11 +291,6 @@ bool MoveToSquad::OnUpdate(float dt)
 {
 	bool all_idle = true;
 
-	for (int i = 0; i < squad->units.size(); i++)
-		if (!squad->units[i]->commands.empty()) all_idle = false;
-	
-	if (all_idle) { squad->commands.push_front(new ReshapeSquad(squad->commander)); Stop(); }
-
 	return true;
 }
 
@@ -339,50 +298,6 @@ bool MoveToSquad::OnUpdate(float dt)
 bool MoveToSquad::ProcessPath(const std::list<iPoint>& path)
 {
 	std::vector<std::list<iPoint*>*> paths_list;
-
-	for (int i = 0; i < squad->units.size(); i++)
-	{
-		std::list<iPoint*>* new_path = new std::list<iPoint*>();
-		for (std::list<iPoint>::const_iterator it = path.begin(); it != path.end(); it++)
-		{
-			if (*it - *std::prev(it) == *std::next(it) - *it)
-				continue;
-
-			iPoint* offset_pos = new iPoint((*it) + squad->unit_offset[i]);
-			if (App->pathfinding->IsWalkable(*offset_pos)) new_path->push_back(offset_pos);
-			else
-			{
-				if(new_path->empty()) new_path->push_back(new iPoint(*it));
-				else
-				{
-					if ((*it).DistanceManhattan(*new_path->back()) == 1) new_path->push_back(new iPoint(*it));
-					else
-					{
-						iPoint new_point = *it;
-						if (App->pathfinding->CreatePath(*new_path->back(), new_point) < 0)
-							return false;
-						else {
-							const std::list<iPoint>* repathing = App->pathfinding->GetLastPath();
-							for (std::list<iPoint>::const_iterator it2 = repathing->begin(); it2 != repathing->end(); it2++)
-								new_path->push_back(new iPoint(*it2));
-						}
-					}
-				}
-			}
-		}
-		paths_list.push_back(new_path);
-	}
-
-	for (int i = 0; i < squad->units.size(); i++)
-	{
-		MoveTo* new_move_order = new MoveTo(squad->units[i], destination);
-
-		for (std::list<iPoint*>::iterator it = paths_list[i]->begin(); it != paths_list[i]->end(); it++)
-			new_move_order->path.push_back(*(*it));
-
-		new_move_order->state = UPDATE;
-		squad->units[i]->commands.push_back(new_move_order);
-	}
 
 	return true;
 }
@@ -394,32 +309,11 @@ bool ReshapeSquad::OnInit()
 	if (!unit->squad) { Stop(); return true; }
 	else squad = unit->squad;
 
-	iPoint commander_pos = App->map->WorldToMap(squad->commander->position.x, squad->commander->position.y);
-	std::list<iPoint> adjacents;
-
-	if (App->pathfinding->GatherWalkableAdjacents(commander_pos, squad->units.size() - 1, adjacents))
-	{
-		for (int i = 1; i < squad->units.size(); i++)
-		{
-			iPoint dest = adjacents.front();
-			iPoint target = commander_pos + squad->unit_offset[i];
-
-			for (std::list<iPoint>::iterator it = adjacents.begin(); it != adjacents.end(); it++)
-				if ((*it).DistanceManhattan(target) < dest.DistanceManhattan(target)) dest = (*it);
-
-			squad->units[i]->commands.push_front(new MoveTo(squad->units[i], dest));
-			adjacents.remove(dest);
-		}
-	}
-	else Stop();
 }
 
 bool ReshapeSquad::OnUpdate(float dt)
 {
 	bool all_idle = true;
-
-	for (int i = 0; i < squad->units.size(); i++)
-		if (!squad->units[i]->commands.empty()) all_idle = false;
 
 	if (all_idle) 
 		Stop();

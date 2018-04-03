@@ -14,21 +14,21 @@
     <ProjectGuid>{2AF9969B-F202-497B-AF30-7BEF9CE8005E}</ProjectGuid>
     <RootNamespace>programacio_2</RootNamespace>
     <ProjectName>Project2</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -81,9 +81,7 @@
     <ClCompile Include="Building.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Effects.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Hero.cpp" />
     <ClCompile Include="j1Console.cpp" />
     <ClCompile Include="j1Fonts.cpp" />
     <ClCompile Include="j1Gui.cpp" />
@@ -93,7 +91,6 @@
     <ClCompile Include="j1Audio.cpp" />
     <ClCompile Include="j1Input.cpp" />
     <ClCompile Include="j1Map.cpp" />
-    <ClCompile Include="j1Pathfinding.cpp" />
     <ClCompile Include="j1PerfTimer.cpp" />
     <ClCompile Include="j1Scene.cpp" />
     <ClCompile Include="j1SceneSwitch.cpp" />
@@ -106,16 +103,7 @@
     <ClCompile Include="j1Window.cpp" />
     <ClCompile Include="PugiXml\src\pugixml.cpp" />
     <ClCompile Include="j1EntityController.cpp" />
-    <ClCompile Include="Skills.cpp" />
-    <ClCompile Include="Squad.cpp" />
-    <ClCompile Include="UI_Button.cpp" />
-    <ClCompile Include="UI_Chrono.cpp" />
     <ClCompile Include="UI_element.cpp" />
-    <ClCompile Include="UI_Image.cpp" />
-    <ClCompile Include="UI_IngameMenu.cpp" />
-    <ClCompile Include="UI_LifeBar.cpp" />
-    <ClCompile Include="UI_ProgressBar.cpp" />
-    <ClCompile Include="UI_Text.cpp" />
     <ClCompile Include="UI_Window.cpp" />
     <ClCompile Include="Unit.cpp" />
   </ItemGroup>
@@ -125,16 +113,13 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Effects.h" />
-    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="Hero.h" />
     <ClInclude Include="j1Console.h" />
     <ClInclude Include="j1Fonts.h" />
     <ClInclude Include="j1Gui.h" />
     <ClInclude Include="j1UIScene.h" />
     <ClInclude Include="j1EntityController.h" />
     <ClInclude Include="j1Map.h" />
-    <ClInclude Include="j1Pathfinding.h" />
     <ClInclude Include="j1PerfTimer.h" />
     <ClInclude Include="j1Scene.h" />
     <ClInclude Include="j1SceneSwitch.h" />
@@ -153,16 +138,7 @@
     <ClInclude Include="j1Window.h" />
     <ClInclude Include="PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="PugiXml\src\pugixml.hpp" />
-    <ClInclude Include="Skills.h" />
-    <ClInclude Include="Squad.h" />
-    <ClInclude Include="UI_Button.h" />
-    <ClInclude Include="UI_Chrono.h" />
     <ClInclude Include="UI_element.h" />
-    <ClInclude Include="UI_Image.h" />
-    <ClInclude Include="UI_IngameMenu.h" />
-    <ClInclude Include="UI_LifeBar.h" />
-    <ClInclude Include="UI_ProgressBar.h" />
-    <ClInclude Include="UI_Text.h" />
     <ClInclude Include="UI_Window.h" />
     <ClInclude Include="Unit.h" />
   </ItemGroup>
@@ -175,9 +151,7 @@
       <SubType>Designer</SubType>
     </Xml>
     <Xml Include="..\Game\GameData.xml" />
-    <Xml Include="..\Game\Gui_config.xml">
-      <SubType>Designer</SubType>
-    </Xml>
+    <Xml Include="..\Game\Gui_config.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -39,16 +39,7 @@ void UI_element::BlitChilds()
 	}
 }
 
-void UI_element::setDragable(bool horizontally, bool vertically)
-{
-	if (horizontally || vertically)
-		dragable = true;
-	else
-		dragable = false;
 
-	horizontalMovement = horizontally;
-	verticalMovement = vertically;
-}
 
 void UI_element::setOriginalPos(int x, int y)
 {

@@ -77,8 +77,6 @@ public:
 
 	void BlitChilds();
 
-	void setDragable(bool horizontally, bool vertically);
-
 	void setOriginalPos(int x, int y);
 
 	//-1 to delete limit

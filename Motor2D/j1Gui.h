@@ -14,14 +14,7 @@
 struct _TTF_Font;
 struct SDL_Texture;
 class UI_element;
-class Text;
-class Image;
-class Button;
 class Window;
-class Chrono;
-class ProgressBar;
-class LifeBar;
-class IngameMenu;
 class menu;
 class Entity;
 
@@ -80,19 +73,8 @@ public:
 	UI_element* GetElement(int type, int id);
 
 	void Load_UIElements(pugi::xml_node node, menu* menu, j1Module* callback = nullptr, UI_element* parent = nullptr);
-	Text* createText(pugi::xml_node node, j1Module* callback = nullptr, bool saveIntoGUI = true);
-	Chrono* createTimer(pugi::xml_node node, j1Module* callback = nullptr, bool saveIntoGUI = true);
-	Chrono* createStopWatch(pugi::xml_node node, j1Module* callback = nullptr, bool saveIntoGUI = true);
-	Image* createImage(pugi::xml_node node, j1Module* callback = nullptr, bool saveIntoGUI = true);
-	Image* createImageFromAtlas(pugi::xml_node node, j1Module* callback = nullptr, bool use_icon_atlas = false, bool saveIntoGUI = true);
 	//NULL texture to use atlas
-	Button* createButton(pugi::xml_node node, j1Module* callback = nullptr, bool saveIntoGUI = true);
 	Window* createWindow(pugi::xml_node node, j1Module* callback = nullptr, bool saveIntoGUI = true);
-	ProgressBar* createProgressBar(pugi::xml_node node, j1Module* callback = nullptr, bool saveIntoGUI = true);
-	IngameMenu* createIngameMenu(pugi::xml_node node, j1Module* callback = nullptr);
-	void createLifeBar(Entity* entity);
-
-	void LoadDB(pugi::xml_node node);
 
 	void AddIconData(unitType type, pugi::xml_node node);
 	void AddIconData(buildingType type, pugi::xml_node node);
@@ -100,7 +82,6 @@ public:
 	SDL_Rect GetIconRect(Entity* entity);
 	SDL_Rect GetLifeBarRect(std::string tag);
 
-	void newSelectionDone();
 
 public:
 	bool UI_Debug = false;
@@ -115,19 +96,12 @@ private:
 	std::string atlas_file_name;
 	std::string icon_atlas_file_name;
 	std::string	buttonFX;
-	std::list<Image*> Images;
-	std::list<Text*> Texts;
-	std::list<Button*> Buttons;
-	std::list<Chrono*> Chronos;
-	std::list<ProgressBar*> ProgressBars;
-	std::list<LifeBar*> LifeBars;
 	std::list<Window*> Windows;
-	IngameMenu* inGameMenu = nullptr;
 	UI_element* draggingElement = nullptr;
 	std::map<unitType, SDL_Rect> unitIconRect;
 	std::map<buildingType, SDL_Rect> buildingIconRect;
 	std::map<resourceType, SDL_Rect> resourceIconRect;
-	std::map<std::string, SDL_Rect> LifeBarRect;
+
 };
 
 #endif // __j1GUI_H__
