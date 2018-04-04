@@ -61,7 +61,7 @@ bool j1Scene::Update(float dt)
 	App->render->MouseCameraMovement(dt);
 	App->map->Draw();
 
-	minimap_test->DrawMinimap(-App->render->camera.x, -App->render->camera.y);
+	lmao += 10;
 
 	return true;
 }
@@ -69,6 +69,15 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
+
+	SDL_Color c;
+	c.r = 255;
+	c.b = 0;
+	c.a = 255;
+	c.g = 0;
+
+	minimap_test->Addpoint({ lmao,lmao,100,100 }, c);
+	minimap_test->DrawMinimap(-App->render->camera.x, -App->render->camera.y);
 
 	return true;
 }

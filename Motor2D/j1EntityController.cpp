@@ -23,14 +23,14 @@ bool j1EntityController::Start()
 
 	loadEntitiesDB(gameData);
 
-	squad_units_test.push_back(addUnit(iPoint(900, 1000), FOOTMAN));
-	squad_units_test.push_back(addUnit(iPoint(1000, 800), FOOTMAN));
-	squad_units_test.push_back(addUnit(iPoint(1000, 1000), FOOTMAN));
-	squad_units_test.push_back(addUnit(iPoint(900, 800), FOOTMAN));
+	//squad_units_test.push_back(addUnit(iPoint(900, 1000), FOOTMAN));
+	//squad_units_test.push_back(addUnit(iPoint(1000, 800), FOOTMAN));
+	//squad_units_test.push_back(addUnit(iPoint(1000, 1000), FOOTMAN));
+	//squad_units_test.push_back(addUnit(iPoint(900, 800), FOOTMAN));
 
-	addUnit(iPoint(900, 700), HERO_1);
+	//addUnit(iPoint(900, 700), HERO_1);
 
-	addBuilding(iPoint(700, 700), BARRACKS);
+	//addBuilding(iPoint(700, 700), BARRACKS);
 
 	return true;
 }
@@ -51,6 +51,13 @@ bool j1EntityController::Update(float dt)
 				if (debug) App->render->DrawQuad((*it)->collider, Green);
 			}
 			if (!(*it)->Update(dt))	return false;
+			SDL_Color c;
+			c.a = 255;
+			c.r = 0;
+			c.b = 0;
+			c.g = 255;
+			App->scene->minimap_test->Addpoint({ (int)(*it)->position.x, (int)(*it)->position.y,96,95 },c);
+
 		}
 	}
 

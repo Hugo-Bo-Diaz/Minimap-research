@@ -35,10 +35,12 @@ SDL_Texture* Minimap::GetMinimap()
 void Minimap::DrawMinimap(int x, int y)
 {
 	SDL_Surface* manipulation = new SDL_Surface();
-	SDL_Rect r = {0,0,surface->w,surface->h};
-	SDL_BlitSurface(surface, NULL, manipulation, NULL);
-	
-	LOG("%s",SDL_GetError());
+	//SDL_Rect r = {0,0,surface->w,surface->h};
+	//SDL_BlitSurface(surface, NULL, manipulation, NULL);
+
+	manipulation = SDL_ConvertSurface(surface, surface->format, SDL_SWSURFACE);
+
+	//LOG("%s",SDL_GetError());
 
 	for (std::list<dot>::iterator it = points.begin(); it != points.end(); it++)
 	{
@@ -51,18 +53,23 @@ void Minimap::DrawMinimap(int x, int y)
 
 		float ratio_x = temp_w / temp_mw;
 		float ratio_y = temp_h / temp_mh;
+
 		representation.x = ratio_x * it->rect.x;
 		representation.y = ratio_y * it->rect.y;
 		representation.w = ratio_x * it->rect.w;
 		representation.h = ratio_y * it->rect.h;
 
 		SDL_FillRect(manipulation, &representation, SDL_MapRGB(manipulation->format, it->color.b, it->color.g, it->color.r));
-		//		SDL_FillRect(manipulation, &representation, SDL_MapRGB(manipulation->format, 255, 0, 0));
+		//SDL_FillRect(manipulation, &representation, SDL_MapRGB(manipulation->format, 255, 0, 0));
 
 	}
+
+	points.clear();
+
 	ret = SDL_CreateTextureFromSurface(App->render->renderer, manipulation);
 	App->render->Blit(ret,x,y);
 	SDL_DestroyTexture(ret);
+	SDL_FreeSurface(manipulation);
 
 }
 void Minimap::Addpoint(SDL_Rect rect, SDL_Color color) 

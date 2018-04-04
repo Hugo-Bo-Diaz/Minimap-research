@@ -37,6 +37,8 @@ public:
 	bool Load(pugi::xml_node& data);
 	bool Save(pugi::xml_node& data) const;
 
+	int lmao = 0;
+
 	Minimap* minimap_test = nullptr;
 	SDL_Texture* minimap_tex = nullptr;
 
