@@ -3,6 +3,7 @@
 
 #include "j1Module.h"
 #include "j1Timer.h"
+#include "Minimap.h"
 
 struct SDL_Texture;
 class Window;
@@ -35,6 +36,9 @@ public:
 
 	bool Load(pugi::xml_node& data);
 	bool Save(pugi::xml_node& data) const;
+
+	Minimap* minimap_test = nullptr;
+	SDL_Texture* minimap_tex = nullptr;
 
 public:
 	SDL_Texture* debug_tex;

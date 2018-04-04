@@ -85,11 +85,11 @@
     <ClCompile Include="j1Console.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="UI_IngameMenu.cpp">
-      <Filter>Desenvolupament  ========\GUI\Compund Elements</Filter>
-    </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Desenvolupament  ========\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Minimap.cpp">
+      <Filter>Desenvolupament  ========\Mnimap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +192,9 @@
     <ClInclude Include="Command.h">
       <Filter>Desenvolupament  ========\Entities</Filter>
     </ClInclude>
+    <ClInclude Include="Minimap.h">
+      <Filter>Desenvolupament  ========\Mnimap</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -226,6 +229,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\GUI\Basic UI Elements">
       <UniqueIdentifier>{35e96c29-4c6f-4b2e-819c-81d75beb2966}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\Mnimap">
+      <UniqueIdentifier>{4762f6f2-0d2e-4f4c-811b-d63971c21943}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
