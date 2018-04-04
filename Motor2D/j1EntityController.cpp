@@ -68,6 +68,14 @@ bool j1EntityController::Update(float dt)
 		iPoint pos2 = App->map->MapToWorld(pos1.x, pos1.y);
 		
 		addBuilding(pos2, BARRACKS);
+
+		SDL_Color coloring;
+		coloring.r = 255;
+		coloring.g = 255;
+		coloring.b = 0;
+
+		App->scene->minimap_test->Addpoint({ pos2.x,pos2.y,96,95 },coloring);
+
 		building = false;
 	}
 
@@ -155,6 +163,7 @@ Building* j1EntityController::addBuilding(iPoint pos, buildingType type)
 {
 	Building* building = new Building(pos, *(buildingDB[type]));
 	entities.push_back(building);
+
 	return building;
 }
 

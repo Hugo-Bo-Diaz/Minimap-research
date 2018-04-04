@@ -45,6 +45,8 @@ bool j1Scene::Start()
 	gold = 400;
 	
 	minimap_test = new Minimap("base.png",4096,4096, -1,-1);
+	//minimap_test = new Minimap("", 4096, 4096, 198, 198);
+
 
 	return true;
 }
@@ -59,9 +61,7 @@ bool j1Scene::Update(float dt)
 	App->render->MouseCameraMovement(dt);
 	App->map->Draw();
 
-	minimap_tex = minimap_test->GetMinimap();
-
-	App->render->Blit(minimap_tex, 0, 0);
+	minimap_test->DrawMinimap(-App->render->camera.x, -App->render->camera.y);
 
 	return true;
 }
