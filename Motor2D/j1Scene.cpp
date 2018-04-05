@@ -44,9 +44,8 @@ bool j1Scene::Start()
 	wood = 200;
 	gold = 400;
 	
-	minimap_test = new Minimap("base.png",4096,4096, -1,-1);
+	minimap_test = new Minimap("base.png",0,0,4096,4096, -1,-1);
 	//minimap_test = new Minimap("", 4096, 4096, 198, 198);
-
 
 	return true;
 }
@@ -60,6 +59,19 @@ bool j1Scene::Update(float dt)
 
 	App->render->MouseCameraMovement(dt);
 	App->map->Draw();
+
+
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
+	{
+		int camx, camy;
+		minimap_test->Mouse_to_map(camx,camy);
+
+		if (camx != -1 && camy != -1)
+		{
+			App->render->camera.y = -camy + App->win->height / 2;
+			App->render->camera.x = -camx + App->win->width / 2;
+		}
+	}
 
 	lmao += 10;
 

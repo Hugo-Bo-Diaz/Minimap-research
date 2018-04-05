@@ -20,43 +20,27 @@ public:
 	SDL_Surface* surface;
 	std::list<dot> points;
 
+	int window_position_x;
+	int window_position_y;
+
 	int width;
 	int height;
+
+	float ratio_x = 1;
+	float ratio_y = 1;
 
 	int map_width;
 	int map_height;
 
-	Minimap()
-	{}
+	Minimap(const char* base_texture_path, int _window_position_x, int _window_position_y, int _width, int _height, int tex_width = -1, int tex_height = -1);
 
-	Minimap(const char* base_texture_path ,int _width, int _height, int tex_width = -1, int tex_height = -1)
-	{
-		if (tex_width == -1 && tex_height == -1)
-		{
-			surface = IMG_Load(base_texture_path);
-		}
-		else
-		{
-
-			SDL_Rect r = { 0,0,tex_width,tex_height };
-			surface = SDL_CreateRGBSurface(0, tex_width, tex_height, 32, 0, 0, 0, 0);
-			SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 255, 0, 0));
-
-
-		}
-
-		map_width = _width;
-		map_height = _height;
-		width = surface->w;
-		height = surface->h;
-	
-	}
-	
 	SDL_Texture* GetMinimap();
 
 	void DrawMinimap(int x, int y);
 
 	void Addpoint (SDL_Rect rect, SDL_Color color);
+
+	void Mouse_to_map(int& map_x, int& map_y);
 
 };
 
