@@ -61,7 +61,7 @@ SDL_Texture* Minimap::GetMinimap()
 	return ret;
 }
 
-void Minimap::DrawMinimap(int x, int y)
+void Minimap::DrawMinimap()
 {
 	SDL_Surface* manipulation = new SDL_Surface();
 	//SDL_Rect r = {0,0,surface->w,surface->h};
@@ -88,21 +88,21 @@ void Minimap::DrawMinimap(int x, int y)
 	points.clear();
 
 	//now we will blit the map borders
-	SDL_Rect up = {App->render->camera.x * ratio_x,App->render->camera.y * ratio_y ,App->render->camera.w * ratio_x, 1};
+	SDL_Rect up = {-App->render->camera.x * ratio_x,-App->render->camera.y * ratio_y ,App->render->camera.w * ratio_x, 1};
 	SDL_FillRect(manipulation, &up, SDL_MapRGB(manipulation->format, 255, 255, 255));
 
-	SDL_Rect down = { App->render->camera.x * ratio_x,(App->render->camera.y+ App->render->camera.h) * ratio_y ,App->render->camera.w * ratio_x, 1 };
+	SDL_Rect down = {-App->render->camera.x * ratio_x,-(App->render->camera.y-App->render->camera.h) * ratio_y -1 ,App->render->camera.w * ratio_x, 1 };
 	SDL_FillRect(manipulation, &down, SDL_MapRGB(manipulation->format, 255, 255, 255));
 
-	SDL_Rect left = { App->render->camera.x * ratio_x,App->render->camera.y * ratio_y ,1 , App->render->camera.w * ratio_y };
+	SDL_Rect left = {-App->render->camera.x * ratio_x,-App->render->camera.y * ratio_y ,1 , App->render->camera.h * ratio_y };
 	SDL_FillRect(manipulation, &left, SDL_MapRGB(manipulation->format, 255, 255, 255));
 
-	SDL_Rect right = { (App->render->camera.x +App->render->camera.w) * ratio_x ,App->render->camera.y * ratio_y ,1, App->render->camera.w* ratio_x };
+	SDL_Rect right = {-(App->render->camera.x -App->render->camera.w) * ratio_x - 1 , - App->render->camera.y * ratio_y ,1, App->render->camera.h* ratio_y };
 	SDL_FillRect(manipulation, &right, SDL_MapRGB(manipulation->format, 255, 255, 255));
 
-
+	
 	ret = SDL_CreateTextureFromSurface(App->render->renderer, manipulation);
-	App->render->Blit(ret,x,y);
+	App->render->Blit(ret,window_position_x - App->render->camera.x, window_position_y - App->render->camera.y);
 	SDL_DestroyTexture(ret);
 	SDL_FreeSurface(manipulation);
 

@@ -9,7 +9,6 @@
 #include "j1Map.h"
 #include "j1Scene.h"
 #include "j1UIScene.h"
-#include "j1Sceneswitch.h"
 #include "j1EntityController.h"
 #include "j1Gui.h"
 j1Scene::j1Scene() : j1Module() { name = "scene"; }
@@ -44,7 +43,7 @@ bool j1Scene::Start()
 	wood = 200;
 	gold = 400;
 	
-	minimap_test = new Minimap("base.png",0,0,4096,4096, -1,-1);
+	minimap_test = new Minimap("base.png",200,200,4096,4096, -1,-1);
 	//minimap_test = new Minimap("", 4096, 4096, 198, 198);
 
 	return true;
@@ -89,7 +88,7 @@ bool j1Scene::PostUpdate()
 	c.g = 0;
 
 	minimap_test->Addpoint({ lmao,lmao,100,100 }, c);
-	minimap_test->DrawMinimap(-App->render->camera.x, -App->render->camera.y);
+	minimap_test->DrawMinimap();
 
 	return true;
 }

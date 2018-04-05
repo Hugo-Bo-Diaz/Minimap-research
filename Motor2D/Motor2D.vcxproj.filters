@@ -49,22 +49,7 @@
     <ClCompile Include="j1Fonts.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="j1SceneSwitch.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Ally.cpp">
-      <Filter>Desenvolupament  ========\Entities</Filter>
-    </ClCompile>
     <ClCompile Include="Building.cpp">
-      <Filter>Desenvolupament  ========\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Effects.cpp">
-      <Filter>Desenvolupament  ========\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Nature.cpp">
-      <Filter>Desenvolupament  ========\Entities</Filter>
-    </ClCompile>
-    <ClCompile Include="Unit.cpp">
       <Filter>Desenvolupament  ========\Entities</Filter>
     </ClCompile>
     <ClCompile Include="p2Animation.cpp">
@@ -84,9 +69,6 @@
     </ClCompile>
     <ClCompile Include="j1Console.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Desenvolupament  ========\Entities</Filter>
     </ClCompile>
     <ClCompile Include="Minimap.cpp">
       <Filter>Desenvolupament  ========\Mnimap</Filter>
@@ -147,25 +129,10 @@
     <ClInclude Include="j1Fonts.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="j1SceneSwitch.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Unit.h">
-      <Filter>Desenvolupament  ========\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Color.h">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Nature.h">
-      <Filter>Desenvolupament  ========\Entities</Filter>
-    </ClInclude>
     <ClInclude Include="Building.h">
-      <Filter>Desenvolupament  ========\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Ally.h">
-      <Filter>Desenvolupament  ========\Entities</Filter>
-    </ClInclude>
-    <ClInclude Include="Effects.h">
       <Filter>Desenvolupament  ========\Entities</Filter>
     </ClInclude>
     <ClInclude Include="p2Animation.h">
@@ -185,9 +152,6 @@
     </ClInclude>
     <ClInclude Include="j1Console.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Desenvolupament  ========\Entities</Filter>
     </ClInclude>
     <ClInclude Include="Minimap.h">
       <Filter>Desenvolupament  ========\Mnimap</Filter>

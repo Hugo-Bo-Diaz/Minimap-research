@@ -4,9 +4,7 @@
 #include "j1Module.h"
 #include "p2Point.h"
 #include "SDL/include/SDL_rect.h"
-#include "Unit.h"
 #include "Building.h"
-#include "Nature.h"
 #include <map>
 #include <string>
 #include <list>
@@ -76,9 +74,7 @@ public:
 	//NULL texture to use atlas
 	Window* createWindow(pugi::xml_node node, j1Module* callback = nullptr, bool saveIntoGUI = true);
 
-	void AddIconData(unitType type, pugi::xml_node node);
 	void AddIconData(buildingType type, pugi::xml_node node);
-	void AddIconData(resourceType type, pugi::xml_node node);
 	SDL_Rect GetIconRect(Entity* entity);
 	SDL_Rect GetLifeBarRect(std::string tag);
 
@@ -98,9 +94,7 @@ private:
 	std::string	buttonFX;
 	std::list<Window*> Windows;
 	UI_element* draggingElement = nullptr;
-	std::map<unitType, SDL_Rect> unitIconRect;
 	std::map<buildingType, SDL_Rect> buildingIconRect;
-	std::map<resourceType, SDL_Rect> resourceIconRect;
 
 };
 

@@ -318,38 +318,18 @@ Window* j1Gui::createWindow(pugi::xml_node node, j1Module * callback, bool saveI
 	return ret;
 }
 
-
-
-void j1Gui::AddIconData(unitType type, pugi::xml_node node)
-{
-	SDL_Rect rect = { node.attribute("x").as_int(), node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() };
-	unitIconRect.insert(std::pair<unitType, SDL_Rect>(type, rect));
-}
-
 void j1Gui::AddIconData(buildingType type, pugi::xml_node node)
 {
 	SDL_Rect rect = { node.attribute("x").as_int(), node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() };
 	buildingIconRect.insert(std::pair<buildingType, SDL_Rect>(type, rect));
 }
 
-void j1Gui::AddIconData(resourceType type, pugi::xml_node node)
-{
-	SDL_Rect rect = { node.attribute("x").as_int(), node.attribute("y").as_int(), node.attribute("w").as_int(), node.attribute("h").as_int() };
-	resourceIconRect.insert(std::pair<resourceType, SDL_Rect>(type, rect));
-}
-
 SDL_Rect j1Gui::GetIconRect(Entity* entity)
 {
 	switch (entity->entity_type)
 	{
-	case UNIT:
-		return unitIconRect.at(((Unit*)entity)->type);
-		break;
 	case BUILDING:
 		return buildingIconRect.at(((Building*)entity)->type);
-		break;
-	case NATURE:
-		return resourceIconRect.at(((Nature*)entity)->type);
 		break;
 	default:
 		return { 0,0,0,0 };

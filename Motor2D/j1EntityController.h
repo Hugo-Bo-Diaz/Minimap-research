@@ -3,8 +3,6 @@
 
 #include "j1Module.h"
 #include "Building.h"
-#include "Unit.h"
-#include "Nature.h"
 
 #include <list>
 #include <map>
@@ -30,17 +28,9 @@ public:
 	void DeleteEntity(Entity* entity);
 	bool DeleteDB() { return true; };
 
-	Unit* addUnit(iPoint pos, unitType type, Squad* squad = nullptr);
 	Building* addBuilding(iPoint pos, buildingType type );
-	Nature* addNature(iPoint pos, resourceType res_type, int amount = 0);
-
-
-	void selectionControl();
-	void commandControl();
-	entityType getSelectedType();
 
 	void placingBuilding(buildingType type);
-	Entity* CheckMouseHover(iPoint mouse_world);
 	std::vector<Entity*> CheckCollidingWith(Entity* entity);
 
 	iPoint CameraToWorld(int x, int y);
@@ -52,12 +42,7 @@ public:
 
 	std::list<Entity*> entities_to_destroy;
 	
-	std::vector<Unit*> squad_units_test;  // for testing purposes, will be deleted
-	Squad* squad_test = nullptr; // for testing purposes, will be deleted
-
-	std::map<uint, Unit*> unitDB;
 	std::map<uint, Building*> buildingDB;
-	std::map<uint, Nature*> natureDB;
 
 	bool debug = false;
 	bool building = false;
