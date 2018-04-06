@@ -2,7 +2,6 @@
 #include "j1App.h"
 #include "j1Render.h"
 #include "j1Scene.h"
-#include "j1Gui.h"
 #include "Entity.h"
 #include "PugiXml/src/pugixml.hpp"
 #include "j1Textures.h"
@@ -55,7 +54,7 @@ bool j1EntityController::Update(float dt)
 			c.r = 0;
 			c.b = 0;
 			c.g = 255;
-			App->scene->minimap_test->Addpoint({ (int)(*it)->position.x, (int)(*it)->position.y,96,95 },c);
+			App->scene->minimap->Addpoint({ (int)(*it)->position.x, (int)(*it)->position.y,96,95 },c);
 
 		}
 	}
@@ -80,7 +79,7 @@ bool j1EntityController::Update(float dt)
 		coloring.g = 255;
 		coloring.b = 0;
 
-		App->scene->minimap_test->Addpoint({ pos2.x,pos2.y,96,95 },coloring);
+		App->scene->minimap->Addpoint({ pos2.x,pos2.y,96,95 },coloring);
 
 		building = false;
 	}
@@ -187,10 +186,6 @@ bool j1EntityController::loadEntitiesDB(pugi::xml_node& data)
 		buildingTemplate->defense = NodeInfo.child("Stats").child("defense").attribute("value").as_int(0);
 		
 		// TODO building cost outside the DB so it's not unnecessarily repeated on every unit
-
-		pugi::xml_node IconData;
-		if (NodeInfo.child("iconData"))
-			App->gui->AddIconData(buildingTemplate->type, NodeInfo.child("iconData"));
 
 		buildingDB.insert(std::pair<int, Building*>(buildingTemplate->type, buildingTemplate));
 	}

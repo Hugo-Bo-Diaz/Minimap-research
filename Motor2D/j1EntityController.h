@@ -30,7 +30,6 @@ public:
 
 	Building* addBuilding(iPoint pos, buildingType type );
 
-	void placingBuilding(buildingType type);
 	std::vector<Entity*> CheckCollidingWith(Entity* entity);
 
 	iPoint CameraToWorld(int x, int y);

@@ -16,12 +16,9 @@ class j1Window;
 class j1Input;
 class j1Render;
 class j1Textures;
-class j1UIScene;
 class j1Scene;
 class j1Map;
 class j1EntityController;
-class j1Fonts;
-class j1Gui;
 
 class j1App
 {
@@ -91,12 +88,9 @@ public:
 	j1Input*			input;
 	j1Render*			render;
 	j1Textures*			tex;
-	j1UIScene*		    uiscene;
 	j1Scene*			scene;
 	j1Map*				map;
 	j1EntityController* entitycontroller;
-	j1Fonts*			font;
-	j1Gui*				gui;
 	bool fpsCapON = true;
 	std::string			load_game;
 

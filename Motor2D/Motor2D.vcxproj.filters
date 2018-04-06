@@ -55,21 +55,6 @@
     <ClCompile Include="p2Animation.cpp">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Window.cpp">
-      <Filter>Desenvolupament  ========\GUI\Basic UI Elements</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Gui.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="j1UIScene.cpp">
-      <Filter>Desenvolupament  ========\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="UI_element.cpp">
-      <Filter>Desenvolupament  ========\GUI\Basic UI Elements</Filter>
-    </ClCompile>
-    <ClCompile Include="j1Console.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="Minimap.cpp">
       <Filter>Desenvolupament  ========\Mnimap</Filter>
     </ClCompile>
@@ -138,21 +123,6 @@
     <ClInclude Include="p2Animation.h">
       <Filter>Desenvolupament  ========\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="UI_element.h">
-      <Filter>Desenvolupament  ========\GUI\Basic UI Elements</Filter>
-    </ClInclude>
-    <ClInclude Include="UI_Window.h">
-      <Filter>Desenvolupament  ========\GUI\Basic UI Elements</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Gui.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClInclude>
-    <ClInclude Include="j1UIScene.h">
-      <Filter>Desenvolupament  ========\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="j1Console.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Minimap.h">
       <Filter>Desenvolupament  ========\Mnimap</Filter>
     </ClInclude>
@@ -184,15 +154,6 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Entities">
       <UniqueIdentifier>{cb479061-eae6-44a1-acb6-29edb60003aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament  ========\GUI">
-      <UniqueIdentifier>{189cc345-0869-48d4-b5bb-24a02adad0ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament  ========\GUI\Compund Elements">
-      <UniqueIdentifier>{6b01f619-eb9c-4365-9f0a-28677c8ae1a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Desenvolupament  ========\GUI\Basic UI Elements">
-      <UniqueIdentifier>{35e96c29-4c6f-4b2e-819c-81d75beb2966}</UniqueIdentifier>
     </Filter>
     <Filter Include="Desenvolupament  ========\Mnimap">
       <UniqueIdentifier>{4762f6f2-0d2e-4f4c-811b-d63971c21943}</UniqueIdentifier>

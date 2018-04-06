@@ -39,8 +39,9 @@ public:
 
 	int lmao = 0;
 
-	Minimap* minimap_test = nullptr;
+	Minimap* minimap = nullptr;
 	SDL_Texture* minimap_tex = nullptr;
+	SDL_Surface* test = nullptr;
 
 public:
 	SDL_Texture* debug_tex;

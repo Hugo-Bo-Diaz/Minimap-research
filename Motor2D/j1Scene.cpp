@@ -8,9 +8,7 @@
 #include "j1Window.h"
 #include "j1Map.h"
 #include "j1Scene.h"
-#include "j1UIScene.h"
 #include "j1EntityController.h"
-#include "j1Gui.h"
 j1Scene::j1Scene() : j1Module() { name = "scene"; }
 
 // Destructor
@@ -32,19 +30,14 @@ bool j1Scene::Start()
 
 	App->map->Load_map("map1.tmx");
 
-	debug_tex = App->tex->Load("maps/Navigable.png");
-
-	pugi::xml_document	Gui_config_file;
-	pugi::xml_node		guiconfig;
-
-	guiconfig = App->LoadFile(Gui_config_file, "Gui_config.xml");
-	guiconfig = guiconfig.child("scene");
+	test = IMG_Load("icon1.png");
 
 	wood = 200;
 	gold = 400;
 	
-	minimap_test = new Minimap("base.png",200,200,4096,4096, -1,-1);
-	//minimap_test = new Minimap("", 4096, 4096, 198, 198);
+	minimap = new Minimap("real_base.png",200,200,4096,4096, -1,-1);
+	minimap->window_position_x = App->win->width - minimap->width -5;
+	minimap->window_position_y = App->win->height - minimap->height - 5;
 
 	return true;
 }
@@ -59,11 +52,10 @@ bool j1Scene::Update(float dt)
 	App->render->MouseCameraMovement(dt);
 	App->map->Draw();
 
-
 	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == KEY_REPEAT)
 	{
 		int camx, camy;
-		minimap_test->Mouse_to_map(camx,camy);
+		minimap->Mouse_to_map(camx,camy);
 
 		if (camx != -1 && camy != -1)
 		{
@@ -80,15 +72,8 @@ bool j1Scene::Update(float dt)
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
-
-	SDL_Color c;
-	c.r = 255;
-	c.b = 0;
-	c.a = 255;
-	c.g = 0;
-
-	minimap_test->Addpoint({ lmao,lmao,100,100 }, c);
-	minimap_test->DrawMinimap();
+	minimap->Draw_Sprite(test, lmao, lmao);
+	minimap->DrawMinimap();
 
 	return true;
 }
@@ -97,6 +82,8 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
+
+	SDL_FreeSurface(test);
 
 	return true;
 }

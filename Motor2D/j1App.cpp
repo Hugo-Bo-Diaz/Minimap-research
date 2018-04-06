@@ -9,13 +9,10 @@
 #include "j1Input.h"
 #include "j1Render.h"
 #include "j1Textures.h"
-#include "j1UIScene.h"
 #include "j1Scene.h"
 #include "j1Map.h"
 #include "j1App.h"
 #include "j1EntityController.h"
-#include "j1Fonts.h"
-#include "j1Gui.h"
 
 // Constructor
 j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
@@ -26,12 +23,9 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	win					= new j1Window();
 	render				= new j1Render();
 	tex					= new j1Textures();
-	uiscene			    = new j1UIScene();
 	scene				= new j1Scene();
 	map					= new j1Map();
 	entitycontroller	= new j1EntityController();
-	font				= new j1Fonts();
-	gui					= new j1Gui();
 	
 	// Ordered for awake / Start / Update
 	// Reverse order of CleanUp
@@ -39,10 +33,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	AddModule(win);
 	AddModule(tex);
 	AddModule(map);
-	AddModule(font);
-	AddModule(gui);
 	AddModule(scene);
-	AddModule(uiscene);
 	AddModule(entitycontroller);
 
 	// render last to swap buffer
