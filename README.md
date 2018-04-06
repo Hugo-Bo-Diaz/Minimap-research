@@ -48,9 +48,13 @@ So our item in the minimap will be in the 5x5 position. let's see the operation 
 
 We divided our world position in the total map distance and that result was multiplied by the total lenght of our minimap. In our code as long as the minimap is active the total map distance and the measures of our minimap are not going to change:
 
+
 //make proper scheme plox
+
 world position/map distance * minimap lenght = position on the minimap
+
 (minimap lenght/map distance) * world position = position in the minimap
+
 
 so we can calculate a ratio to how things in our minimap measure in the world by dividing our minimap lenght by our map distance.
 
