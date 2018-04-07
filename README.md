@@ -18,7 +18,7 @@ The main difference between a minimap and a map is whether they are the main foc
 
 "expresion to make it look like i know english", A minimap is an element that should not take the center of the screen as they are more like a constant hint of what is going on the whole map of the game so that the player can always be orientated/aware rather than something the player should be looking with full attention.
 
-![example](https://imgur.com/epGRLl0.png)
+![example](https://imgur.com/Laowfq0.png)
 
 ## Micro game vs Macro game
 
