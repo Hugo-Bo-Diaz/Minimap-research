@@ -24,72 +24,41 @@ Minimap::Minimap(const char* base_texture_path, int _window_position_x, int _win
 	window_position_x = _window_position_x;
 	window_position_y = _window_position_y;
 
-
-	float temp_w = width;
-	float temp_mw = map_width;
-	float temp_h = height;
-	float temp_mh = map_height;
-
-	ratio_x = temp_w / temp_mw;
-	ratio_y = temp_h / temp_mh;
+	ratio_x = (float)width	/ (float)map_width;
+	ratio_y = (float)height	/ (float)map_height;
 }
 
 Minimap::~Minimap()
 {
-	if (ret != nullptr)
-	{
-		SDL_DestroyTexture(ret);
-		ret != nullptr;
-	}
 	if (base_image != nullptr)
 	{
 		SDL_FreeSurface(base_image);
 		base_image = nullptr;
 	}
-	points.clear();
-	queue.clear();
+	point_queue.clear();
+	sprite_queue.clear();
 }
 
-
-SDL_Texture* Minimap::GetMinimap()
-{
-	SDL_Surface* manipulation = base_image;
-
-	for (std::list<dot>::iterator it = points.begin(); it != points.end(); it++)
-	{
-		SDL_Rect representation;
-
-		representation.x = ratio_x* it->rect.x;
-		representation.y = ratio_y* it->rect.y;
-		representation.w = ratio_x* it->rect.w;
-		representation.h = ratio_y* it->rect.h;
-
-		SDL_FillRect(manipulation, &representation, SDL_MapRGB(manipulation->format, it->color.b, it->color.g, it->color.r));
-
-	}
-
-	ret = SDL_CreateTextureFromSurface(App->render->renderer, manipulation);
-	return ret;
-}
 
 void Minimap::DrawMinimap()
 {
-	//this square is the background so that it looks clear
+	//this square is the background so that it looks clear(OPTIONAL)
 	App->render->DrawQuad({ -App->render->camera.x + window_position_x - 5,-App->render->camera.y + window_position_y - 5,width + 10,height + 10 }, Grey);
-	//thi is the texture we will be blitting, a copy of the actual base, so that way we are not modifying it
+	
+	//this is the texture we will be blitting, a copy of the actual base, so that way we are not modifying it
 	SDL_Surface* manipulation = new SDL_Surface();
 	manipulation = SDL_ConvertSurface(base_image, base_image->format, SDL_SWSURFACE);
 
 	//we first blit the sprites that the player asked for to be in the map for this frame
-	for (std::list<sprite_to_blit>::iterator it = queue.begin(); it != queue.end(); it++)
+	for (std::list<sprite>::iterator it = sprite_queue.begin(); it != sprite_queue.end(); it++)
 	{
 		SDL_Rect r = { it->section.x*ratio_x, it->section.y *ratio_y, it->section.w, it->section.h };
 		SDL_BlitSurface(it->sprite, NULL, manipulation, &r);
 	}
-	queue.clear();
+	sprite_queue.clear();
 
 	//now we begin with the points
-	for (std::list<dot>::iterator it = points.begin(); it != points.end(); it++)
+	for (std::list<point>::iterator it = point_queue.begin(); it != point_queue.end(); it++)
 	{
 		SDL_Rect representation;
 		// we multiply the rectangle by the ratio so that it gets reduced to minimap size
@@ -102,7 +71,7 @@ void Minimap::DrawMinimap()
 		SDL_FillRect(manipulation, &representation, SDL_MapRGB(manipulation->format, it->color.r, it->color.g, it->color.b));
 	}
 
-	points.clear();
+	point_queue.clear();
 
 	//now we will blit the viewport representation on the minimap
 	SDL_Rect up = {-App->render->camera.x * ratio_x,-App->render->camera.y * ratio_y ,App->render->camera.w * ratio_x, 1};
@@ -118,23 +87,36 @@ void Minimap::DrawMinimap()
 	SDL_FillRect(manipulation, &right, SDL_MapRGB(manipulation->format, 255, 255, 255));
 	
 	//we create the texture
-	ret = SDL_CreateTextureFromSurface(App->render->renderer, manipulation);
+	SDL_Texture* texture_to_blit = SDL_CreateTextureFromSurface(App->render->renderer, manipulation);
 	// we blit it
-	App->render->Blit(ret,window_position_x - App->render->camera.x, window_position_y - App->render->camera.y);
+	App->render->Blit(texture_to_blit,window_position_x - App->render->camera.x, window_position_y - App->render->camera.y);
 	//free everything to avoid leaks
-	SDL_DestroyTexture(ret);
+	SDL_DestroyTexture(texture_to_blit);
 	SDL_FreeSurface(manipulation);
 	manipulation = nullptr;
-	ret = nullptr;
-
 }
 void Minimap::Addpoint(SDL_Rect rect, SDL_Color color) 
 {
-	dot p;
+	point p;
 	p.rect = rect;
 	p.color = color;
 
-	points.push_back(p);
+	point_queue.push_back(p);
+}
+
+void Minimap::Draw_Sprite(SDL_Surface* img, int pos_x, int pos_y)
+{
+
+	sprite _sprite;
+
+	_sprite.sprite = img;
+	_sprite.section.x = pos_x;
+	_sprite.section.y = pos_y;
+	_sprite.section.w = img->w;
+	_sprite.section.h = img->h;
+
+	sprite_queue.push_back(_sprite);
+
 }
 
 void Minimap::Mouse_to_map(int& map_x, int& map_y)// returns -1 if unsuccesfull
@@ -153,19 +135,4 @@ void Minimap::Mouse_to_map(int& map_x, int& map_y)// returns -1 if unsuccesfull
 		map_x = -1;
 		map_y = -1;
 	}
-}
-
-void Minimap::Draw_Sprite(SDL_Surface* img, int pos_x, int pos_y)
-{
-
-	sprite_to_blit _sprite;
-
-	_sprite.sprite = img;
-	_sprite.section.x = pos_x;
-	_sprite.section.y = pos_y;
-	_sprite.section.w = img->w;
-	_sprite.section.h = img->h;
-
-	queue.push_back(_sprite);
-
 }

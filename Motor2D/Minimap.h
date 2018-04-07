@@ -3,16 +3,19 @@
 #include "SDL\include\SDL.h"
 #include "SDL_image\include\SDL_image.h"
 #include <list>
-#include <map>
 
-
-struct dot
+/* this struct has the 2 elements needed to represent a point on the minimap: 
+the rectangle we want to represent on the minimap(x,y,w,h)
+the color we want it to be seen(RGBA)*/
+struct point
 {
-	SDL_Rect rect;//real map space that wants to be represented
+	SDL_Rect rect;// real map space that wants to be represented
 	SDL_Color color;// color we want the point on the minimap
 };
 
-struct sprite_to_blit
+/*This struct saves one sprite we want to blit, 
+it stores a pointer to a surface and the part we will take from the minimap*/
+struct sprite
 {
 	SDL_Surface* sprite;//sprite or image to blit
 	SDL_Rect section;
@@ -21,10 +24,9 @@ struct sprite_to_blit
 class Minimap
 {
 public:
-	SDL_Texture * ret;
 
-	std::list<dot> points;// this is the list of points we want on the minimap on one frame
-	std::list<sprite_to_blit> queue;// this is the list of sprites we want in one frame
+	std::list<point> point_queue;
+	std::list<sprite> sprite_queue;
 
 	// position of the minimap on the window
 	int window_position_x;
@@ -47,14 +49,10 @@ private:
 	int map_height;
 
 public:
-	//constructor
+
 	Minimap(const char* base_texture_path, int _window_position_x, int _window_position_y, int _width, int _height, int tex_width = -1, int tex_height = -1);
 
-	//destructor
 	~Minimap();
-
-	//this function returns a texture of the minimap
-	SDL_Texture* GetMinimap();
 
 	//and this one draws it directly
 	void DrawMinimap();

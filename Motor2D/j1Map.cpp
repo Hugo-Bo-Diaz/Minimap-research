@@ -18,7 +18,6 @@ j1Map::~j1Map()
 
 void j1Map::Draw()
 {
-	BROFILER_CATEGORY("Map draw", Profiler::Color::BlanchedAlmond);
 
 	iPoint wCoord;
 	SDL_Rect camera = App->render->camera;

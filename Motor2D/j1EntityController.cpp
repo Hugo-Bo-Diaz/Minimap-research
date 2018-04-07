@@ -34,7 +34,6 @@ bool j1EntityController::Start()
 
 bool j1EntityController::Update(float dt)
 {
-	BROFILER_CATEGORY("Entites update", Profiler::Color::Maroon);
 
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN) { debug = !debug; App->map->debug = debug; };
 

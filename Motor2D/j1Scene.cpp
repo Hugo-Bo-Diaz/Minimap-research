@@ -44,8 +44,6 @@ bool j1Scene::Start()
 // Called each loop iteration
 bool j1Scene::Update(float dt)
 {
-	BROFILER_CATEGORY("Scene update", Profiler::Color::Black);
-
 	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN) return false;
 
 	App->render->MouseCameraMovement(dt);
