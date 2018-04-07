@@ -26,7 +26,7 @@ Micro game refers to the gameplay that is skill-based, like managing units or ma
 
 Macro game, on the other hand, refers to the awareness of the player about his/her surroundings and what is happening on the game on a larger scale and how he/she reasons the information to get a decision. To simplify, the tactical and/or strategic decisions the player takes.
 
-![](https://imgur.com/2cDB3Nr)
+![](https://imgur.com/2cDB3Nr.png)
 
 A minimap can help diferentiate these two types of gameplay to the player as well as making it easier to go from one to another, it will provide macro information but what is displayed on screen usually correspond to the micro game therefore it help balance them a little bit better than only giving the player the option to open a map which can be more difficult to the more inexperienced players.
 
