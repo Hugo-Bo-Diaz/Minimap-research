@@ -34,7 +34,7 @@ A minimap can help diferentiate these two types of gameplay to the player as wel
 
 It depends a lot on the game you are trying to develop, but I'll deliver general guidelines for when a game usually needs a minimap 
 
-- Tactical genres
+- Tactical genres tend to need it more than action based genres
 
 - Games with big open worlds
 
@@ -170,4 +170,3 @@ The minimap in the repository code has some more things like also accepting spri
 # Bibliography
 
 http://www.gamemakers.com/micro-vs-macro-consolepc-vs-mobile-gaming/
-##
