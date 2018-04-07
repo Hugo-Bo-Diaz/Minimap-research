@@ -46,14 +46,14 @@ void Minimap::DrawMinimap()
 	App->render->DrawQuad({ -App->render->camera.x + window_position_x - 5,-App->render->camera.y + window_position_y - 5,width + 10,height + 10 }, Grey);
 	
 	//this is the texture we will be blitting, a copy of the actual base, so that way we are not modifying it
-	SDL_Surface* manipulation = new SDL_Surface();
-	manipulation = SDL_ConvertSurface(base_image, base_image->format, SDL_SWSURFACE);
+	SDL_Surface* manipulable = new SDL_Surface();
+	manipulable = SDL_ConvertSurface(base_image, base_image->format, SDL_SWSURFACE);
 
 	//we first blit the sprites that the player asked for to be in the map for this frame
 	for (std::list<sprite>::iterator it = sprite_queue.begin(); it != sprite_queue.end(); it++)
 	{
 		SDL_Rect r = { it->section.x*ratio_x, it->section.y *ratio_y, it->section.w, it->section.h };
-		SDL_BlitSurface(it->sprite, NULL, manipulation, &r);
+		SDL_BlitSurface(it->sprite, NULL, manipulable, &r);
 	}
 	sprite_queue.clear();
 
@@ -68,32 +68,32 @@ void Minimap::DrawMinimap()
 		representation.h = ratio_y * it->rect.h;
 
 		//now we make it fit inside the modifiable texture
-		SDL_FillRect(manipulation, &representation, SDL_MapRGB(manipulation->format, it->color.r, it->color.g, it->color.b));
+		SDL_FillRect(manipulable, &representation, SDL_MapRGB(manipulable->format, it->color.r, it->color.g, it->color.b));
 	}
 
 	point_queue.clear();
 
 	//now we will blit the viewport representation on the minimap
 	SDL_Rect up = {-App->render->camera.x * ratio_x,-App->render->camera.y * ratio_y ,App->render->camera.w * ratio_x, 1};
-	SDL_FillRect(manipulation, &up, SDL_MapRGB(manipulation->format, 255, 255, 255));
+	SDL_FillRect(manipulable, &up, SDL_MapRGB(manipulable->format, 255, 255, 255));
 
 	SDL_Rect down = {-App->render->camera.x * ratio_x,-(App->render->camera.y-App->render->camera.h) * ratio_y -1 ,App->render->camera.w * ratio_x, 1 };
-	SDL_FillRect(manipulation, &down, SDL_MapRGB(manipulation->format, 255, 255, 255));
+	SDL_FillRect(manipulable, &down, SDL_MapRGB(manipulable->format, 255, 255, 255));
 
 	SDL_Rect left = {-App->render->camera.x * ratio_x,-App->render->camera.y * ratio_y ,1 , App->render->camera.h * ratio_y };
-	SDL_FillRect(manipulation, &left, SDL_MapRGB(manipulation->format, 255, 255, 255));
+	SDL_FillRect(manipulable, &left, SDL_MapRGB(manipulable->format, 255, 255, 255));
 
 	SDL_Rect right = {-(App->render->camera.x -App->render->camera.w) * ratio_x - 1 , - App->render->camera.y * ratio_y ,1, App->render->camera.h* ratio_y };
-	SDL_FillRect(manipulation, &right, SDL_MapRGB(manipulation->format, 255, 255, 255));
+	SDL_FillRect(manipulable, &right, SDL_MapRGB(manipulable->format, 255, 255, 255));
 	
 	//we create the texture
-	SDL_Texture* texture_to_blit = SDL_CreateTextureFromSurface(App->render->renderer, manipulation);
+	SDL_Texture* texture_to_blit = SDL_CreateTextureFromSurface(App->render->renderer, manipulable);
 	// we blit it
 	App->render->Blit(texture_to_blit,window_position_x - App->render->camera.x, window_position_y - App->render->camera.y);
 	//free everything to avoid leaks
 	SDL_DestroyTexture(texture_to_blit);
-	SDL_FreeSurface(manipulation);
-	manipulation = nullptr;
+	SDL_FreeSurface(manipulable);
+	manipulable = nullptr;
 }
 void Minimap::Addpoint(SDL_Rect rect, SDL_Color color) 
 {
@@ -119,7 +119,7 @@ void Minimap::Draw_Sprite(SDL_Surface* img, int pos_x, int pos_y)
 
 }
 
-void Minimap::Mouse_to_map(int& map_x, int& map_y)// returns -1 if unsuccesfull
+void Minimap::Mouse_to_map(int& map_x, int& map_y)// returns -1 in the variables if unsuccesfull
 {
 	int mouse_x, mouse_y;
 	App->input->GetMousePosition(mouse_x, mouse_y);
