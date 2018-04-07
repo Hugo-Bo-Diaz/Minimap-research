@@ -42,7 +42,7 @@ It depends a lot on the game you are trying to develop, but I'll deliver general
 
 - You want to make a distinction between micro and macro gameplay
 
-##Parts of the minimap
+## Parts of the minimap
 
 IMAGE HERE WITH PARTS DETAILED
 
@@ -102,7 +102,7 @@ the last thing we want to do in this piece of code is calculate the ratios becau
 
 we cast everything to float because we need the decimals (usually the ratios are a fraction and lower than 1)
 
-Now we need something to represent on our minimap, someone has to give the minimap the points, and that is why this function exists
+Now we need something to represent on our minimap, someone has to give the minimap the points, and that is why I created this function
 
 ```
 void Minimap::Addpoint(SDL_Rect rect, SDL_Color color) 
@@ -115,57 +115,57 @@ void Minimap::Addpoint(SDL_Rect rect, SDL_Color color)
 	p.rect = rect;
 	p.color = color;
   ```
-  the point_queue is a std::list so that we can access easliy all the points to blit them into the surface
+  the point_queue is a std::list of point so that we can access easliy all the points to blit them into the surface
   ```
 	point_queue.push_back(p);
 }
 ```
-Now that we have that basis covered lets start drawing the map:
+now that we have everything we need covered lets start drawing the map:
 
 The first thing we need is to duplicate our base image because if we edited the original we would lose the original form and we wouldn't be able to revert the changes, I called this copy manipulable
 ```
 void Draw_Minimap()
 {
   SDL_Surface* manipulable = new SDL_Surface();
-	manipulable = SDL_ConvertSurface(base_image, base_image->format, SDL_SWSURFACE);
+  manipulable = SDL_ConvertSurface(base_image, base_image->format, SDL_SWSURFACE);
 ```
 
 now we want to change this texture to what we want our player to see lets add the points our player has requested
 
 ```
-	for (std::list<point>::iterator it = point_queue.begin(); it != point_queue.end(); it++)
-	{
+  for (std::list<point>::iterator it = point_queue.begin(); it != point_queue.end(); it++)
+  {
 ```
-We now reduce the points we have been given to for the minimap
+we now scale the points we have recieved for the minimap
 
 ```
-		SDL_Rect representation;
-		representation.x = ratio_x * it->rect.x;
-		representation.y = ratio_y * it->rect.y;
-		representation.w = ratio_x * it->rect.w;
-		representation.h = ratio_y * it->rect.h;
+    SDL_Rect representation;
+    representation.x = ratio_x * it->rect.x;
+    representation.y = ratio_y * it->rect.y;
+    representation.w = ratio_x * it->rect.w;
+    representation.h = ratio_y * it->rect.h;
 ```
-And here we put them in the texture with SDL_FillRect
+and now we blit them to the texture with SDL_FillRect
 ```
     SDL_FillRect(manipulable, &representation, SDL_MapRGB(manipulable->format, it->color.r, it->color.g, it->color.b));
-	}
+  }
  
 ```
-Once the points have been transfered into the minimap texture we can proceed to blit this manipulated texture to screen
+once the points have been transfered into the minimap texture we can proceed to blit this manipulated texture to screen
 ```
-	SDL_Texture* texture_to_blit = SDL_CreateTextureFromSurface(App->render->renderer, manipulable);
-	App->render->Blit(texture_to_blit,window_position_x - App->render->camera.x, window_position_y - App->render->camera.y);
+  SDL_Texture* texture_to_blit = SDL_CreateTextureFromSurface(App->render->renderer, manipulable);
+  App->render->Blit(texture_to_blit,window_position_x - App->render->camera.x, window_position_y - App->render->camera.y);
 
 ```
-We now free everything to avoid leaks, this is very important as it would be a considerable leak for each frame!
+we now free everything to avoid leaks, this is very important as it would be a considerable leak for each frame!
 ```
-	SDL_DestroyTexture(texture_to_blit);
-	SDL_FreeSurface(manipulable);
+  SDL_DestroyTexture(texture_to_blit);
+  SDL_FreeSurface(manipulable);
 }
 
 ```
 
-The minimap in the repository has some more things like also accepting sprites to blit to the minimap and also is interactive with the mouse, I suggest looking the repository or the release for excercises if you are interested in learning more
+The minimap in the repository code has some more things like also accepting sprites to blit to the minimap and also is interactive with the mouse, I suggest looking the repository or the release for excercises if you are interested in learning more
 
 # Bibliography
 
