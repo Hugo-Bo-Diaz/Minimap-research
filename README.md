@@ -44,7 +44,17 @@ It depends a lot on the game you are trying to develop, but I'll deliver general
 
 ## Parts of the minimap
 
-IMAGE HERE WITH PARTS DETAILED
+![](https://imgur.com/vyt5kKo.png)
+
+As seen in the image we can distinguish 3 main parts
+
+-The base image on the background of the minimap. It has a rough scheme of the terrain and can be prefabricated or generated with the terrain.
+
+-The viewport representation on the minimap so the player knows what is on the screen, this element is not present in games where the viewport is not relevant, mainly big open world games.
+
+-Then we see the icons, the best part about a minimap is knowing where everything is with just a simple look and having big or striking icons to show important or relevant things on the minimap can help inmensly to do that. These are essential to making a great minimap.
+
+We could also add tools to manouver the minimap around but these are not usually all that necessary
 
 # Implementation
 
