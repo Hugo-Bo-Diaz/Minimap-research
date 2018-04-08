@@ -1,5 +1,3 @@
-# WorkInProgress
-
 I am [Hugo Bó Díaz](https://www.linkedin.com/in/hugo-b%C3%B3-d%C3%ADaz-415628146/), student of [Bachelor’s Degree in Video Games by UPC at CITM](https://www.citm.upc.edu/ing/estudis/graus-videojocs/). This content is generated for the second year’s subject Project 2, under supervision of lecturer [Ricard Pillosu](https://es.linkedin.com/in/ricardpillosu).
 
 # Theory about minimaps
@@ -56,7 +54,7 @@ As seen in the image we can distinguish 3 main parts
 
 We could also add tools to manouver the minimap around but these are not usually all that necessary
 
-# Implementation
+# Implementation into the code
 
 Now that we know all the theory of on what is a minimap and its function we can create our own
 
@@ -87,24 +85,19 @@ First we need our base image as it is the texture we will be working over, where
 ```
 Minimap(const char* _base_texture_path, int _win_pos_x, int _win_pos_y, int _width, int height)
 {
-  base_image = IMG_Load(_base_texture_path);
-  map_width = _width;
-  map_height = _height;
-  window_position_x = _win_pos_x;
-  window_position_y = _win_pos_y;
- ```
+	base_image = IMG_Load(_base_texture_path);
+	map_width = _width;
+	map_height = _height;
+	window_position_x = _win_pos_x;
+	window_position_y = _win_pos_y;
+	
+	//now because the SDL_surface has the width and height of the image as a variable we will be getting how big our minimap is from there
+	
+	width = base_image->w;
+	height = base_image->h;
 
-now because the SDL_surface has the width and height of the image as a variable we will be getting how big our minimap is from there
+	//the last thing we want to do in this piece of code is calculate the ratios because we already have all the data and is something that'll remain constant in the minimap
 
-```
-  width = base_image->w;
-  height = base_image->h;
-```
-
-the last thing we want to do in this piece of code is calculate the ratios because we already have all the data and is something that'll remain constant in the minimap
-
-
-```
 	ratio_x = (float)width	/ (float)map_width;
 	ratio_y = (float)height	/ (float)map_height;
 }
@@ -118,16 +111,13 @@ Now we need something to represent on our minimap, someone has to give the minim
 void Minimap::Addpoint(SDL_Rect rect, SDL_Color color) 
 {
 	point p;
-  
-  ```
-  point is a struct that I created to have everything easily accesible, it has a SDL_Rect and a SDL_Color
-  ```
+  	//point is a struct that I created to have everything easily accesible, it has a SDL_Rect and a SDL_Color
+	
 	p.rect = rect;
 	p.color = color;
-  ```
-  the point_queue is a std::list of point so that we can access easliy all the points to blit them into the surface
-  ```
+
 	point_queue.push_back(p);
+	// the point_queue is a std::list of point so that we can access easliy all the points to blit them into the surface
 }
 ```
 now that we have everything we need covered lets start drawing the map:
@@ -136,41 +126,31 @@ The first thing we need is to duplicate our base image because if we edited the 
 ```
 void Draw_Minimap()
 {
-  SDL_Surface* manipulable = new SDL_Surface();
-  manipulable = SDL_ConvertSurface(base_image, base_image->format, SDL_SWSURFACE);
-```
+	SDL_Surface* manipulable = new SDL_Surface();
+	manipulable = SDL_ConvertSurface(base_image, base_image->format, SDL_SWSURFACE);
 
-now we want to change this texture to what we want our player to see lets add the points our player has requested
+	//now we want to change this texture to what we want our player to see lets add the points our player has requested
+	for (std::list<point>::iterator it = point_queue.begin(); it != point_queue.end(); it++)
+	{
+	
+	//we then scale the points we have recieved for the minimap
+	SDL_Rect representation;
+	representation.x = ratio_x * it->rect.x;
+	representation.y = ratio_y * it->rect.y;
+	representation.w = ratio_x * it->rect.w;
+	representation.h = ratio_y * it->rect.h;
+	
+	//and now we blit them to the texture with SDL_FillRect
+	SDL_FillRect(manipulable, &representation, SDL_MapRGB(manipulable->format, it->color.r, it->color.g, it->color.b));
+	}
 
-```
-  for (std::list<point>::iterator it = point_queue.begin(); it != point_queue.end(); it++)
-  {
-```
-we now scale the points we have recieved for the minimap
+	//once the points have been transfered into the minimap texture we can proceed to blit this manipulated texture to screen
+	SDL_Texture* texture_to_blit = SDL_CreateTextureFromSurface(App->render->renderer, manipulable);
+	App->render->Blit(texture_to_blit,window_position_x - App->render->camera.x, window_position_y - App->render->camera.y);
 
-```
-    SDL_Rect representation;
-    representation.x = ratio_x * it->rect.x;
-    representation.y = ratio_y * it->rect.y;
-    representation.w = ratio_x * it->rect.w;
-    representation.h = ratio_y * it->rect.h;
-```
-and now we blit them to the texture with SDL_FillRect
-```
-    SDL_FillRect(manipulable, &representation, SDL_MapRGB(manipulable->format, it->color.r, it->color.g, it->color.b));
-  }
- 
-```
-once the points have been transfered into the minimap texture we can proceed to blit this manipulated texture to screen
-```
-  SDL_Texture* texture_to_blit = SDL_CreateTextureFromSurface(App->render->renderer, manipulable);
-  App->render->Blit(texture_to_blit,window_position_x - App->render->camera.x, window_position_y - App->render->camera.y);
-
-```
-we now free everything to avoid leaks, this is very important as it would be a considerable leak for each frame!
-```
-  SDL_DestroyTexture(texture_to_blit);
-  SDL_FreeSurface(manipulable);
+	we now free everything to avoid leaks, this is very important as it would be a considerable leak for each frame!
+	SDL_DestroyTexture(texture_to_blit);
+	SDL_FreeSurface(manipulable);
 }
 
 ```
