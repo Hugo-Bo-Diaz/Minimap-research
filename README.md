@@ -60,7 +60,7 @@ Now that we know all the theory of on what is a minimap and its function we can 
 
 ## Basics in the code
 
-A minimap and a map are based on the same code concepts, which are comparable to what a regular map does: it shrinks the size of things to represent them in their relative position.
+A minimap and a map are based on the same code concepts, which are comparable to what a real world map does: it shrinks the size of things to represent them in their relative position.
 
 For example we have a map that is 100 units long and we want to represent it in a minimap that is 10 units long. So if we had an object in the coordinate 50 in the real map it would mean that it is halfway because 50/100 = 1/2 of the total map lenght. This means that in our minimap it should also be represented halfway of the minimap: 10*(1/2) = 5.
 
