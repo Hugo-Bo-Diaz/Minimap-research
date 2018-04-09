@@ -157,6 +157,14 @@ void Draw_Minimap()
 
 The minimap in the repository code has some more things like also accepting sprites to blit to the minimap and also is interactive with the mouse, I suggest looking the repository or the release for excercises if you are interested in learning more
 
+## Fog of war
+
+Even if not included in this repository it is a feature that should be present in the minimap if it is on the real map. In this minimap 
+
+Soon(tm)
+
+/*I would implement it with an extra method to create the rectangles that are going to be black, because calling the method SDL_FillRect too many times would cause your game to lag. We have the convert ratio in the method to draw the minimap, you only need to give the SDL_Rect of the real map fog of war to be blit as black(0 red, 0 blue, 0 green, 255 alpha)*/
+
 # Bibliography
 
 http://www.gamemakers.com/micro-vs-macro-consolepc-vs-mobile-gaming/
