@@ -64,7 +64,7 @@ A minimap and a map are based on the same code concepts, which are comparable to
 
 For example we have a map that is 100 units long and we want to represent it in a minimap that is 10 units long. So if we had an object in the coordinate 50 in the real map it would mean that it is halfway because 50/100 = 1/2 of the total map lenght. This means that in our minimap it should also be represented halfway of the minimap: 10*(1/2) = 5.
 
-So our item in the minimap will be in the 5 position. let's see the operation we did here and try to make them easier for a computer:
+So our item in the minimap will be in the 5 position. Let's see the operation we did here and try to make them easier for a computer:
 
 We divided our world position in the total map distance and that result was multiplied by the total lenght of our minimap. In our code as long as the minimap is active the total map distance and the measures of our minimap are not going to change:
 
