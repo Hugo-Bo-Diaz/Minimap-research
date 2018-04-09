@@ -159,11 +159,11 @@ The minimap in the repository code has some more things like also accepting spri
 
 ## Fog of war
 
-Even if not included in this repository it is a feature that should be present in the minimap if it is on the real map. In this minimap 
+Even if not included in this repository it is a feature that should be present in the minimap if it is on the real map.
 
-Soon(tm)
+Fog of war can also be resolved to rectangles on the map that we can translate easily into the minimap with the mentioned methods so we would be covering the texture with SDL_FillRect() with black squares. It should be optimized (like unifiying adjacent tiles into a bigger rectangle), not having it optimized can be very resource consuming, as having every tile be procesated individually would take a lot of time. And most likely lag the game.
 
-/*I would implement it with an extra method to create the rectangles that are going to be black, because calling the method SDL_FillRect too many times would cause your game to lag. We have the convert ratio in the method to draw the minimap, you only need to give the SDL_Rect of the real map fog of war to be blit as black(0 red, 0 blue, 0 green, 255 alpha)*/
+![](https://imgur.com/azdupqI.png)
 
 # Bibliography
 
