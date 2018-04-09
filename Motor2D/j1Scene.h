@@ -37,13 +37,11 @@ public:
 	bool Load(pugi::xml_node& data);
 	bool Save(pugi::xml_node& data) const;
 
-	int lmao = 0;
-
 	Minimap* minimap = nullptr;
 	SDL_Texture* minimap_tex = nullptr;
-	SDL_Surface* test = nullptr;
 
 public:
+
 	SDL_Texture* debug_tex;
 	int wood;
 	int gold;

@@ -29,8 +29,6 @@ bool j1Scene::Start()
 
 	App->map->Load_map("map1.tmx");
 
-	test = IMG_Load("icon1.png");
-
 	wood = 200;
 	gold = 400;
 	
@@ -61,15 +59,12 @@ bool j1Scene::Update(float dt)
 		}
 	}
 
-	lmao += 10;
-
 	return true;
 }
 
 // Called each loop iteration
 bool j1Scene::PostUpdate()
 {
-	minimap->Draw_Sprite(test, lmao, lmao);
 	minimap->DrawMinimap();
 
 	return true;
@@ -79,8 +74,6 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-
-	SDL_FreeSurface(test);
 
 	return true;
 }
