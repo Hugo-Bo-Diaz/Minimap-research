@@ -34,7 +34,7 @@ bool j1Scene::Start()
 	wood = 200;
 	gold = 400;
 	
-	minimap = new Minimap("real_base.png",200,200,4096,4096, -1,-1);
+	minimap = new Minimap("base_image.png",200,200,4096,4096, -1,-1);
 	minimap->window_position_x = App->win->width - minimap->width -5;
 	minimap->window_position_y = App->win->height - minimap->height - 5;
 

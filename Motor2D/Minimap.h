@@ -17,7 +17,7 @@ struct point
 it stores a pointer to a surface and the part we will take from the minimap*/
 struct sprite
 {
-	SDL_Surface* sprite;//sprite or image to blit
+	SDL_Surface* sprite_surface;//sprite or image to blit
 	SDL_Rect section;
 };
 

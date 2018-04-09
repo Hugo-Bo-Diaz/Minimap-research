@@ -53,7 +53,7 @@ void Minimap::DrawMinimap()
 	for (std::list<sprite>::iterator it = sprite_queue.begin(); it != sprite_queue.end(); it++)
 	{
 		SDL_Rect r = { it->section.x*ratio_x, it->section.y *ratio_y, it->section.w, it->section.h };
-		SDL_BlitSurface(it->sprite, NULL, manipulable, &r);
+		SDL_BlitSurface(it->sprite_surface, NULL, manipulable, &r);
 	}
 	sprite_queue.clear();
 
@@ -109,7 +109,7 @@ void Minimap::Draw_Sprite(SDL_Surface* img, int pos_x, int pos_y)
 
 	sprite _sprite;
 
-	_sprite.sprite = img;
+	_sprite.sprite_surface = img;
 	_sprite.section.x = pos_x;
 	_sprite.section.y = pos_y;
 	_sprite.section.w = img->w;

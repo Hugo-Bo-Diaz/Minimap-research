@@ -47,12 +47,7 @@ bool j1EntityController::Update(float dt)
 				if (debug) App->render->DrawQuad((*it)->collider, Green);
 			}
 			if (!(*it)->Update(dt))	return false;
-			SDL_Color c;
-			c.a = 255;
-			c.r = 0;
-			c.b = 0;
-			c.g = 255;
-			App->scene->minimap->Addpoint({ (int)(*it)->position.x, (int)(*it)->position.y,96,95 },c);
+
 
 		}
 	}
