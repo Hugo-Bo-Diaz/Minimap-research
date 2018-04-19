@@ -32,9 +32,12 @@ bool j1Scene::Start()
 	wood = 200;
 	gold = 400;
 	
-	minimap = new Minimap("base_image.png",200,200,4096,4096, -1,-1);
+	minimap = new Minimap("base_image.png",200,200,4096,4096,64,64,-1,-1);
 	minimap->window_position_x = App->win->width - minimap->width -5;
 	minimap->window_position_y = App->win->height - minimap->height - 5;
+
+	minimap->minimap_camera_x = 0;
+	minimap->minimap_camera_y = 0;
 
 	return true;
 }
@@ -58,6 +61,9 @@ bool j1Scene::Update(float dt)
 			App->render->camera.x = -camx + App->win->width / 2;
 		}
 	}
+
+	minimap->minimap_camera_x += 1;
+	minimap->minimap_camera_y += 1;
 
 	return true;
 }

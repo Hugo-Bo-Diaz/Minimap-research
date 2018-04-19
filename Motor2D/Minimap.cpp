@@ -4,7 +4,7 @@
 #include "j1Input.h"
 #include "p2Log.h"
 
-Minimap::Minimap(const char* base_texture_path, int _window_position_x, int _window_position_y, int _width, int _height, int tex_width, int tex_height)
+Minimap::Minimap(const char* base_texture_path, int _window_position_x, int _window_position_y, int _width, int _height,  int _minimap_viewport_w , int _minimap_viewport_h , int tex_width, int tex_height)
 {
 	if (tex_width == -1 && tex_height == -1)
 	{
@@ -20,6 +20,17 @@ Minimap::Minimap(const char* base_texture_path, int _window_position_x, int _win
 	map_height = _height;
 	width = base_image->w;
 	height = base_image->h;
+
+	if (_minimap_viewport_w != -1 && _minimap_viewport_h != -1)
+	{
+		minimap_viewport_w = _minimap_viewport_w;
+		minimap_viewport_h = _minimap_viewport_h;
+	}
+	else
+	{
+		minimap_viewport_w = width;
+		minimap_viewport_h = height;
+	}
 
 	window_position_x = _window_position_x;
 	window_position_y = _window_position_y;
@@ -88,8 +99,11 @@ void Minimap::DrawMinimap()
 	
 	//we create the texture
 	SDL_Texture* texture_to_blit = SDL_CreateTextureFromSurface(App->render->renderer, manipulable);
+
 	// we blit it
-	App->render->Blit(texture_to_blit,window_position_x - App->render->camera.x, window_position_y - App->render->camera.y);
+	SDL_Rect rec = { minimap_camera_x, minimap_camera_y,minimap_viewport_w,minimap_viewport_h };
+
+	App->render->Blit(texture_to_blit, window_position_x - App->render->camera.x, window_position_y - App->render->camera.y, &rec );
 	//free everything to avoid leaks
 	SDL_DestroyTexture(texture_to_blit);
 	SDL_FreeSurface(manipulable);
@@ -127,8 +141,8 @@ void Minimap::Mouse_to_map(int& map_x, int& map_y)// returns -1 in the variables
 	if (	mouse_x > window_position_x && mouse_x < window_position_x + width
 		&&	mouse_y > window_position_y && mouse_y < window_position_y + height)
 	{
-		map_x = (mouse_x - window_position_x)/ ratio_x;
-		map_y = (mouse_y - window_position_y) / ratio_y;
+		map_x = (mouse_x - window_position_x)/ ratio_x + minimap_camera_x/ratio_x;
+		map_y = (mouse_y - window_position_y) / ratio_y + minimap_camera_y/ratio_y;
 	}
 	else
 	{

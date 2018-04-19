@@ -36,6 +36,9 @@ public:
 	int width;
 	int height;
 
+	int minimap_camera_x = 0;
+	int minimap_camera_y = 0;
+
 private:
 
 	SDL_Surface* base_image;// the base texture we are using will be saved here
@@ -48,9 +51,13 @@ private:
 	int map_width;
 	int map_height;
 
+	int minimap_viewport_w;
+	int minimap_viewport_h;
+
+
 public:
 
-	Minimap(const char* base_texture_path, int _window_position_x, int _window_position_y, int _width, int _height, int tex_width = -1, int tex_height = -1);
+	Minimap(const char* base_texture_path, int _window_position_x, int _window_position_y, int _width, int _height,int minimap_viewport_w = -1,int minimap_viewport_h = -1, int tex_width = -1, int tex_height = -1);
 
 	~Minimap();
 
@@ -66,6 +73,5 @@ public:
 	//transforms a coordinate clicked in the minimap into a real map one
 	void Mouse_to_map(int& map_x, int& map_y);
 };
-
 
 #endif 
