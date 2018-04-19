@@ -39,6 +39,9 @@ public:
 	int minimap_camera_x = 0;
 	int minimap_camera_y = 0;
 
+	int minimap_viewport_w;
+	int minimap_viewport_h;
+
 private:
 
 	SDL_Surface* base_image;// the base texture we are using will be saved here
@@ -50,10 +53,6 @@ private:
 	//total map width and height
 	int map_width;
 	int map_height;
-
-	int minimap_viewport_w;
-	int minimap_viewport_h;
-
 
 public:
 

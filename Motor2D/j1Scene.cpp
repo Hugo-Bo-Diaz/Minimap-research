@@ -32,7 +32,7 @@ bool j1Scene::Start()
 	wood = 200;
 	gold = 400;
 	
-	minimap = new Minimap("base_image.png",200,200,4096,4096,64,64,-1,-1);
+	minimap = new Minimap("base_image.png",200,200,4096,4096,64+32,64+32,-1,-1);
 	minimap->window_position_x = App->win->width - minimap->width -5;
 	minimap->window_position_y = App->win->height - minimap->height - 5;
 
@@ -61,9 +61,22 @@ bool j1Scene::Update(float dt)
 			App->render->camera.x = -camx + App->win->width / 2;
 		}
 	}
-
-	minimap->minimap_camera_x += 1;
-	minimap->minimap_camera_y += 1;
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && minimap->minimap_camera_y > 0)
+	{
+		minimap->minimap_camera_y -= 1;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT && minimap->minimap_camera_x > 0)
+	{
+		minimap->minimap_camera_x -= 1;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT && minimap->minimap_camera_x < minimap->width - minimap->minimap_viewport_w)
+	{
+		minimap->minimap_camera_x += 1;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && minimap->minimap_camera_y< minimap->height - minimap->minimap_viewport_h)
+	{
+		minimap->minimap_camera_y += 1;
+	}
 
 	return true;
 }
